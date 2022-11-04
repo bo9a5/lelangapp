@@ -36,13 +36,13 @@ const auctionByID = async (req, res, next, id) => {
     let auction = await Auction.findById(id).populate('seller', '_id name').populate('bids.bidder', '_id name nohp').exec()
     if (!auction)
       return res.status('400').json({
-        error: "Auction not found"
+        error: "Lelang tidak ditemukan"
       })
     req.auction = auction
     next()
   } catch (err) {
     return res.status('400').json({
-      error: "Could not retrieve auction"
+      error: "Gagal memperoleh data lelang"
     })
   }
 }
