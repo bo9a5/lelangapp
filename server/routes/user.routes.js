@@ -18,10 +18,10 @@ router.route('/api/users/:userId')
 
 router.param('userId', userCtrl.userByID)
 
-router.route('/api/seller_ktp/image/:userId')
+router.route('/api/user_ktp/image/:userId')
   .get(userCtrl.ktpImage)
 
-router.route('/api/seller_ktp/defaultphoto')
+router.route('/api/user_ktp/defaultphoto')
   .get(userCtrl.defaultKtpImage)
 
 router.route('/api/list_verify_seller').get(authCtrl.requireSignin, userCtrl.listNotVerifiedSeller)
@@ -31,5 +31,13 @@ router.route('/api/detail_seller/:userId').get(authCtrl.requireSignin, userCtrl.
 router.route('/api/accept_seller/:userId').put(authCtrl.requireSignin, userCtrl.acceptSeller)
 
 router.route('/api/decline_seller/:userId').put(authCtrl.requireSignin, userCtrl.declineSeller)
+
+router.route('/api/list_verify_buyer').get(authCtrl.requireSignin, userCtrl.listNotVerifiedSeller)
+
+router.route('/api/detail_buyer/:userId').get(authCtrl.requireSignin, userCtrl.readSeller)
+
+router.route('/api/accept_buyer/:userId').put(authCtrl.requireSignin, userCtrl.acceptSeller)
+
+router.route('/api/decline_buyer/:userId').put(authCtrl.requireSignin, userCtrl.declineSeller)
 
 export default router

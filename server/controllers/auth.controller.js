@@ -15,7 +15,8 @@ const signin = async (req, res) => {
         })
       }
 
-      if (user.seller === true) {
+      // bukan admin, berarti seller atau buyer
+      if (user.admin === false) {
         if (user.verified === null) {
           return res.status('401').json({
             error: "Silahkan tunggu verifikasi admin"

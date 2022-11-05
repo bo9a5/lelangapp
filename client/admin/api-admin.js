@@ -64,9 +64,79 @@ const declineSeller = async (params, credentials) => {
   }
 }
 
+const listVerifyBuyer = async (credentials, signal) => {
+  try {
+    let response = await fetch("/api/list_verify_buyer", {
+      method: "GET",
+      signal: signal,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + credentials.t
+      }
+    })
+    return await response.json()
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+const getBuyer = async (params, credentials, signal) => {
+  try {
+    let response = await fetch('/api/detail_buyer/' + params.userId, {
+      method: 'GET',
+      signal: signal,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + credentials.t
+      }
+    })
+    return await response.json()
+  } catch(err) {
+    console.log(err)
+  }
+}
+
+const acceptBuyer = async (params, credentials) => {
+  try {
+    let response = await fetch('/api/accept_buyer/' + params.userId, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + credentials.t
+      },
+    })
+    return await response.json()
+  } catch(err) {
+    console.log(err)
+  }
+}
+
+const declineBuyer = async (params, credentials) => {
+  try {
+    let response = await fetch('/api/decline_buyer/' + params.userId, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + credentials.t
+      },
+    })
+    return await response.json()
+  } catch(err) {
+    console.log(err)
+  }
+}
+
 export { 
     listVerifySeller,
     getSeller,
     acceptSeller,
-    declineSeller
+    declineSeller,
+    listVerifyBuyer,
+    getBuyer,
+    acceptBuyer,
+    declineBuyer
 }

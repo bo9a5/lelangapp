@@ -17,20 +17,33 @@ const create = async (req, res) => {
     })
   }
 
-  let user = new User(req.body)
-  try {
+  let form = new formidable.IncomingForm()
+  form.keepExtensions = true
+  form.parse(req, async (err, fields, files) => {
+    if (err) {
+      res.status(400).json({
+        message: "Foto NIK tidak dapat di-upload"
+      })
+    }
+    
+    let user = new User(fields)
     user.seller = false
+    user.verified = null
     user.admin = false
 
-    await user.save()
-    return res.status(200).json({
-      message: "Successfully signed up!"
-    })
-  } catch (err) {
-    return res.status(400).json({
-      error: errorHandler.getErrorMessage(err)
-    })
-  }
+    if(files.image){
+      user.image.data = fs.readFileSync(files.image.path)
+      user.image.contentType = files.image.type
+    }
+    try {
+      let result = await user.save()
+      res.status(200).json(result)
+    }catch (err){
+      return res.status(400).json({
+        error: errorHandler.getErrorMessage(err)
+      })
+    }
+  })
 }
 
 const createSeller = async (req, res) => {
@@ -127,6 +140,25 @@ const readSeller = (req, res) => {
   return res.json(req.profile)
 }
 
+const listNotVerifiedBuyer = async (req, res) => {
+  try {
+
+    let users = await User.find({ seller: false, admin: false, verified: null }).select('name username updated created')
+
+    res.json(users)
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err)
+    })
+  }
+}
+
+const readBuyer = (req, res) => {
+  req.profile.hashed_password = undefined
+  req.profile.salt = undefined
+  return res.json(req.profile)
+}
+
 const ktpImage = (req, res) => {
   if(req.profile && req.profile.image && req.profile.image.data){
     res.set("Content-Type", req.profile.image.contentType)
@@ -154,6 +186,36 @@ const acceptSeller = async (req, res) => {
 }
 
 const declineSeller = async (req, res) => {
+  try {
+    let user = req.profile
+    user.verified = false
+    await user.save()
+    user.hashed_password = undefined
+    user.salt = undefined
+    res.json(user)
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err)
+    })
+  }
+}
+
+const acceptBuyer = async (req, res) => {
+  try {
+    let user = req.profile
+    user.verified = true
+    await user.save()
+    user.hashed_password = undefined
+    user.salt = undefined
+    res.json(user)
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err)
+    })
+  }
+}
+
+const declineBuyer = async (req, res) => {
   try {
     let user = req.profile
     user.verified = false
@@ -216,10 +278,14 @@ export default {
   list,
   listNotVerifiedSeller,
   readSeller,
+  listNotVerifiedBuyer,
+  readBuyer,
   ktpImage,
   defaultKtpImage,
   acceptSeller,
   declineSeller,
+  acceptBuyer,
+  declineBuyer,
   remove,
   update,
   isSeller
