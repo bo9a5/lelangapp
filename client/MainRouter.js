@@ -15,6 +15,8 @@ import SignupSeller from './user/SignupSeller'
 import VerifySeller from './admin/VerifySeller'
 import AdminRoute from './auth/AdminRoute'
 import SellerDetail from './admin/SellerDetail'
+import VerifyBuyer from './admin/VerifyBuyer'
+import BuyerDetail from './admin/BuyerDetail'
 
 const MainRouter = () => {
   return (<div>
@@ -36,6 +38,9 @@ const MainRouter = () => {
 
         <AdminRoute path="/verifyseller" component={VerifySeller}/>
         <Route path="/seller/:userId" component={SellerDetail}/>
+
+        <AdminRoute path="/verifybuyer" component={VerifyBuyer}/>
+        <Route path="/buyer/:userId" component={BuyerDetail}/>
       </Switch>
     </div>)
 }

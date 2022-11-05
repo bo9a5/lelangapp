@@ -14,10 +14,10 @@ import Edit from '@material-ui/icons/Edit'
 import Person from '@material-ui/icons/Person'
 import CardMedia from '@material-ui/core/CardMedia'
 import Divider from '@material-ui/core/Divider'
-import AcceptSeller from './AcceptSeller'
-import DeclineSeller from './DeclineSeller'
+import AcceptBuyer from './AcceptBuyer'
+import DeclineBuyer from './DeclineBuyer'
 import auth from './../auth/auth-helper'
-import {getSeller} from './api-admin.js'
+import {getBuyer} from './api-admin.js'
 import {Redirect, Link} from 'react-router-dom'
 import config from './../../config/config'
 import Auctions from './../auction/Auctions'
@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function SellerDetail({ match }) {
+export default function BuyerDetail({ match }) {
   const classes = useStyles()
   const [user, setUser] = useState({})
   const [redirectToSignin, setRedirectToSignin] = useState(false)
@@ -57,7 +57,7 @@ export default function SellerDetail({ match }) {
   useEffect(() => {
     const abortController = new AbortController()
     const signal = abortController.signal
-    getSeller({
+    getBuyer({
       userId: match.params.userId
     }, {t: jwt.token}, signal).then((data) => {
       if (data && data.error) {
@@ -95,8 +95,8 @@ export default function SellerDetail({ match }) {
                  </IconButton>
                </Link> */}
 
-              <AcceptSeller userId={user._id}/>
-              <DeclineSeller userId={user._id}/>
+              <AcceptBuyer userId={user._id}/>
+              <DeclineBuyer userId={user._id}/>
               
              </ListItemSecondaryAction>
           </ListItem>

@@ -47,6 +47,9 @@ export default function Signup() {
   const [values, setValues] = useState({
     name: '',
     nohp: '',
+    nik: '',
+    address: '',
+    image: '',
     password: '',
     username: '',
     open: false,
@@ -54,9 +57,11 @@ export default function Signup() {
   })
 
   const handleChange = name => event => {
-    const value = event.target.value
+    const value = name === 'image'
+      ? event.target.files[0]
+      : event.target.value
 
-    if (name === 'nohp') {
+    if (name === 'nohp' || name === 'nohp') {
       if (checkNumber(value)) {
         setValues({ ...values, [name]: value })
       }
@@ -68,20 +73,24 @@ export default function Signup() {
   }
 
   const clickSubmit = () => {
-    const user = {
-      name: values.name || undefined,
-      nohp: values.nohp || undefined,
-      username: values.username || undefined,
-      password: values.password || undefined
-    }
-    create(user).then((data) => {
+    let buyerData = new FormData()
+    values.name && buyerData.append('name', values.name)
+    values.nohp && buyerData.append('nohp', values.nohp)
+    values.nik && buyerData.append('nik', values.nik)
+    values.address && buyerData.append('address', values.address)
+    values.image && buyerData.append('image', values.image)
+    values.password && buyerData.append('password', values.password)
+    values.username && buyerData.append('username', values.username)
+
+    create(buyerData).then((data) => {
       if (data.error) {
-        setValues({ ...values, error: data.error})
+        setValues({...values, error: data.error})
       } else {
-        setValues({ ...values, error: '', open: true})
+        setValues({...values, error: '', open: true})
       }
     })
-  }   
+  }
+ 
     return (<div>
       <Card className={classes.card}>
         <CardContent>
@@ -90,6 +99,24 @@ export default function Signup() {
           </Typography>
           <TextField id="name" label="Nama" className={classes.textField} value={values.name} onChange={handleChange('name')} margin="normal"/><br/>
           <TextField id="nohp" type="No HP" label="No HP" className={classes.textField} value={values.nohp} onChange={handleChange('nohp')} margin="normal"/><br/>
+          <TextField
+            id="multiline-flexible"
+            label="Alamat"
+            multiline
+            rows="5"
+            value={values.description}
+            onChange={handleChange('address')}
+            className={classes.textField}
+            margin="normal"
+          />
+          <TextField id="nik" label="NIK"  className={classes.textField} value={values.nik} onChange={handleChange('nik')} margin="normal"/><br/>
+          <input accept="image/*" onChange={handleChange('image')} className={classes.input} id="icon-button-file" type="file" />
+          <label htmlFor="icon-button-file">
+            <Button variant="contained" color="secondary" component="span">
+              Foto KTP
+              <FileUpload/>
+            </Button>
+          </label> <span className={classes.filename}>{values.image ? values.image.name : ''}</span><br/>
           <TextField id="username" type="Username" label="Username" className={classes.textField} value={values.username} onChange={handleChange('username')} margin="normal"/><br/>
           <TextField id="password" type="Password" label="Password" className={classes.textField} value={values.password} onChange={handleChange('password')} margin="normal"/>
           <br/> {
@@ -106,11 +133,11 @@ export default function Signup() {
         <DialogTitle>Akun Baru</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Akun baru berhasil dibuat
+            Silahkan tunggu konfirmasi verifikasi akun
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Link to="/signin">
+          <Link to="/">
             <Button color="primary" autoFocus="autoFocus" variant="contained">
               Login
             </Button>

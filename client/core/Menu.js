@@ -88,6 +88,10 @@ const Menu = withRouter(({history}) => (
             </>
           )}
           {auth.isAuthenticated().user.admin === true && (<>
+            <Link to="/verifybuyer"><Button style={isPartActive(history, "/verifybuyer")}>Verifikasi Pembeli</Button></Link>
+            </>
+          )}
+          {auth.isAuthenticated().user.admin === true && (<>
             <Link to="/verifyseller"><Button style={isPartActive(history, "/verifyseller")}>Verifikasi Penjual</Button></Link>
             </>
           )}
