@@ -8,19 +8,35 @@ const router = express.Router()
 router.route('/api/auctions')
   .get(auctionCtrl.listOpen)
 
-router.route('/api/auctions/bid/:userId')
-  .get(auctionCtrl.listByBidder)
+// Old
+// router.route('/api/auctions/bid/:userId')
+//   .get(auctionCtrl.listByBidder)
+
+router.route('/api/auctions/open/bid/:userId')
+  .get(auctionCtrl.listOpenByBidder)
+
+router.route('/api/auctions/closed/bid/:userId')
+  .get(auctionCtrl.listClosedByBidder)
 
 router.route('/api/auction/:auctionId')
   .get(auctionCtrl.read)
 
 router.route('/api/auctions/by/:userId')
   .post(authCtrl.requireSignin, authCtrl.hasAuthorization, userCtrl.isSeller, auctionCtrl.create)
-  .get(authCtrl.requireSignin, authCtrl.hasAuthorization, auctionCtrl.listBySeller)
+  // .get(authCtrl.requireSignin, authCtrl.hasAuthorization, auctionCtrl.listBySeller) // Old
 
 router.route('/api/auctions/:auctionId')
   .put(authCtrl.requireSignin, auctionCtrl.isSeller, auctionCtrl.update)
   .delete(authCtrl.requireSignin, auctionCtrl.isSeller, auctionCtrl.remove)
+
+router.route('/api/auctions/notstart/by/:userId')
+  .get(authCtrl.requireSignin, authCtrl.hasAuthorization, auctionCtrl.listNotStartBySeller)
+
+router.route('/api/auctions/open/by/:userId')
+  .get(authCtrl.requireSignin, authCtrl.hasAuthorization, auctionCtrl.listOpenBySeller)
+
+router.route('/api/auctions/closed/by/:userId')
+  .get(authCtrl.requireSignin, authCtrl.hasAuthorization, auctionCtrl.listClosedBySeller)
 
 router.route('/api/auctions/image/:auctionId')
   .get(auctionCtrl.photo, auctionCtrl.defaultPhoto)

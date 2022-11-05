@@ -22,7 +22,7 @@ const create = async (req, res) => {
   form.parse(req, async (err, fields, files) => {
     if (err) {
       res.status(400).json({
-        message: "Foto NIK tidak dapat di-upload"
+        message: "Foto KTP tidak dapat di-upload"
       })
     }
     
@@ -61,7 +61,7 @@ const createSeller = async (req, res) => {
   form.parse(req, async (err, fields, files) => {
     if (err) {
       res.status(400).json({
-        message: "Foto NIK tidak dapat di-upload"
+        message: "Foto KTP tidak dapat di-upload"
       })
     }
     

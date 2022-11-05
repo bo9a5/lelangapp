@@ -113,7 +113,7 @@ const listOpen = async (req, res) => {
   }
 
   try {
-    let auctions = await Auction.find(query).sort('bidStart').populate('seller', '_id name').populate('bids.bidder', '_id name')
+    let auctions = await Auction.find(query).sort({ created: -1 }).populate('seller', '_id name').populate('bids.bidder', '_id name')
     res.json(auctions)
   } catch (err){
     return res.status(400).json({
@@ -125,7 +125,7 @@ const listOpen = async (req, res) => {
 
 const listBySeller = async (req, res) => {
   try {
-    let auctions = await Auction.find({seller: req.profile._id}).populate('seller', '_id name').populate('bids.bidder', '_id name')
+    let auctions = await Auction.find({seller: req.profile._id}).sort({ created: -1 }).populate('seller', '_id name').populate('bids.bidder', '_id name')
     res.json(auctions)
   } catch (err){
     return res.status(400).json({
@@ -133,9 +133,70 @@ const listBySeller = async (req, res) => {
     })
   }
 }
+
+// bidStart lebih besar dari waktu sekarang
+const listNotStartBySeller = async (req, res) => {
+  try {
+    let auctions = await Auction.find({seller: req.profile._id, bidStart: { $gt: new Date() }}).sort({ created: -1 }).populate('seller', '_id name').populate('bids.bidder', '_id name')
+    res.json(auctions)
+  } catch (err){
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err)
+    })
+  }
+}
+
+// bidEnd lebih besar dari waktu sekarang
+const listOpenBySeller = async (req, res) => {
+  try {
+    let auctions = await Auction.find({seller: req.profile._id, bidEnd: { $gt: new Date() }}).sort({ created: -1 }).populate('seller', '_id name').populate('bids.bidder', '_id name')
+    res.json(auctions)
+  } catch (err){
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err)
+    })
+  }
+}
+
+// bidEnd lebih kecil dari waktu sekarang
+const listClosedBySeller = async (req, res) => {
+  try {
+    let auctions = await Auction.find({seller: req.profile._id, bidEnd: { $lt: new Date() }}).sort({ created: -1 }).populate('seller', '_id name').populate('bids.bidder', '_id name')
+    res.json(auctions)
+  } catch (err){
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err)
+    })
+  }
+}
+
 const listByBidder = async (req, res) => {
   try {
-    let auctions = await Auction.find({'bids.bidder': req.profile._id}).populate('seller', '_id name').populate('bids.bidder', '_id name')
+    let auctions = await Auction.find({'bids.bidder': req.profile._id}).sort({ created: -1 }).populate('seller', '_id name').populate('bids.bidder', '_id name')
+    res.json(auctions)
+  } catch (err){
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err)
+    })
+  }
+}
+
+// bidEnd lebih besar dari waktu sekarang
+const listOpenByBidder = async (req, res) => {
+  try {
+    let auctions = await Auction.find({'bids.bidder': req.profile._id, bidEnd: { $gt: new Date() }}).sort({ created: -1 }).populate('seller', '_id name').populate('bids.bidder', '_id name')
+    res.json(auctions)
+  } catch (err){
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err)
+    })
+  }
+}
+
+// bidEnd lebih kecil dari waktu sekarang
+const listClosedByBidder = async (req, res) => {
+  try {
+    let auctions = await Auction.find({'bids.bidder': req.profile._id, bidEnd: { $lt: new Date() }}).sort({ created: -1 }).populate('seller', '_id name').populate('bids.bidder', '_id name')
     res.json(auctions)
   } catch (err){
     return res.status(400).json({
@@ -161,7 +222,12 @@ export default {
   defaultPhoto,
   listOpen,
   listBySeller,
+  listNotStartBySeller,
+  listOpenBySeller,
+  listClosedBySeller,
   listByBidder,
+  listOpenByBidder,
+  listClosedByBidder,
   read,
   update,
   isSeller,
