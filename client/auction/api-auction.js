@@ -30,9 +30,9 @@ const listOpen = async (params, signal) => {
   }
 }
 
-const sellerAuctions = async (params, credentials, signal) => {
+const sellerNotStartAuctions = async (params, credentials, signal) => {
   try {
-    let response = await fetch('/api/auctions/by/'+params.userId, {
+    let response = await fetch('/api/auctions/notstart/by/'+params.userId, {
       method: 'GET',
       signal: signal,
       headers: {
@@ -46,9 +46,57 @@ const sellerAuctions = async (params, credentials, signal) => {
   }
 }
 
-const listByBidder = async (params, credentials, signal) => {
+const sellerOpenAuctions = async (params, credentials, signal) => {
   try {
-    let response = await fetch('/api/auctions/bid/'+params.userId, {
+    let response = await fetch('/api/auctions/open/by/'+params.userId, {
+      method: 'GET',
+      signal: signal,
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ' + credentials.t
+      }
+    })
+    return response.json()
+  }catch(err){
+    console.log(err)
+  }
+}
+
+const sellerClosedAuctions = async (params, credentials, signal) => {
+  try {
+    let response = await fetch('/api/auctions/closed/by/'+params.userId, {
+      method: 'GET',
+      signal: signal,
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ' + credentials.t
+      }
+    })
+    return response.json()
+  }catch(err){
+    console.log(err)
+  }
+}
+
+const listOpenByBidder = async (params, credentials, signal) => {
+  try {
+    let response = await fetch('/api/auctions/open/bid/'+params.userId, {
+      method: 'GET',
+      signal: signal,
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ' + credentials.t
+      }
+    })
+    return response.json()
+  }catch(err){
+    console.log(err)
+  }
+}
+
+const listClosedByBidder = async (params, credentials, signal) => {
+  try {
+    let response = await fetch('/api/auctions/closed/bid/'+params.userId, {
       method: 'GET',
       signal: signal,
       headers: {
@@ -109,8 +157,11 @@ const remove = async (params, credentials) => {
 export {
   create,
   listOpen,
-  sellerAuctions,
-  listByBidder,
+  sellerNotStartAuctions,
+  sellerOpenAuctions,
+  sellerClosedAuctions,
+  listOpenByBidder,
+  listClosedByBidder,
   read,
   update,
   remove

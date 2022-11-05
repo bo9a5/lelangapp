@@ -1,13 +1,12 @@
 
-const create = async (user) => {
+const create = async (buyer) => {
   try {
       let response = await fetch('/api/users/', {
         method: 'POST',
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Accept': 'application/json'
         },
-        body: JSON.stringify(user)
+        body: buyer
       })
     return await response.json()
   } catch(err) {

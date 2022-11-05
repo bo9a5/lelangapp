@@ -32,12 +32,12 @@ router.route('/api/accept_seller/:userId').put(authCtrl.requireSignin, userCtrl.
 
 router.route('/api/decline_seller/:userId').put(authCtrl.requireSignin, userCtrl.declineSeller)
 
-router.route('/api/list_verify_buyer').get(authCtrl.requireSignin, userCtrl.listNotVerifiedSeller)
+router.route('/api/list_verify_buyer').get(authCtrl.requireSignin, userCtrl.listNotVerifiedBuyer)
 
-router.route('/api/detail_buyer/:userId').get(authCtrl.requireSignin, userCtrl.readSeller)
+router.route('/api/detail_buyer/:userId').get(authCtrl.requireSignin, userCtrl.readBuyer)
 
-router.route('/api/accept_buyer/:userId').put(authCtrl.requireSignin, userCtrl.acceptSeller)
+router.route('/api/accept_buyer/:userId').put(authCtrl.requireSignin, userCtrl.acceptBuyer)
 
-router.route('/api/decline_buyer/:userId').put(authCtrl.requireSignin, userCtrl.declineSeller)
+router.route('/api/decline_buyer/:userId').put(authCtrl.requireSignin, userCtrl.declineBuyer)
 
 export default router
