@@ -42,7 +42,7 @@ const UserSchema = new mongoose.Schema({
   nik: {
     type: String,
     trim: true,
-    // required: 'NIK harus diisi'
+    required: 'NIK harus diisi'
   },
   image: {
     data: Buffer,
@@ -50,7 +50,8 @@ const UserSchema = new mongoose.Schema({
   },
   address: {
     type: String,
-    trim: true
+    trim: true,
+    required: 'Alamat harus diisi'
   }
 })
 

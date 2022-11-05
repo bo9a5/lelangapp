@@ -22,7 +22,7 @@ const create = async (req, res) => {
   form.parse(req, async (err, fields, files) => {
     if (err) {
       res.status(400).json({
-        message: "Foto KTP tidak dapat di-upload"
+        error: "Foto KTP tidak dapat di-upload"
       })
     }
     
@@ -61,7 +61,7 @@ const createSeller = async (req, res) => {
   form.parse(req, async (err, fields, files) => {
     if (err) {
       res.status(400).json({
-        message: "Foto KTP tidak dapat di-upload"
+        error: "Foto KTP tidak dapat di-upload"
       })
     }
     
@@ -124,7 +124,7 @@ const list = async (req, res) => {
 const listNotVerifiedSeller = async (req, res) => {
   try {
 
-    let users = await User.find({ seller: true, verified: null }).select('name username updated created')
+    let users = await User.find({ seller: true, verified: null }).sort({ created: 1 }).select('name username updated created')
 
     res.json(users)
   } catch (err) {
@@ -143,7 +143,7 @@ const readSeller = (req, res) => {
 const listNotVerifiedBuyer = async (req, res) => {
   try {
 
-    let users = await User.find({ seller: false, admin: false, verified: null }).select('name username updated created')
+    let users = await User.find({ seller: false, admin: false, verified: null }).sort({ created: 1 }).select('name username updated created')
 
     res.json(users)
   } catch (err) {

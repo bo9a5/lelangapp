@@ -109,6 +109,14 @@ export default function BuyerDetail({ match }) {
             <ListItemText primary={"Bergabung Pada : " + 
               dateFormat(user.created)}/>
           </ListItem>
+          <ListItem>
+            <ListItemText primary={"Alamat : " + 
+              user.address}/>
+          </ListItem>
+          <ListItem>
+            <ListItemText primary={"NIK : " + 
+              user.nik}/>
+          </ListItem>
         </List>
 
         <CardMedia
