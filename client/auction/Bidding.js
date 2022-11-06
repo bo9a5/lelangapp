@@ -94,7 +94,7 @@ export default function Bidding (props) {
                         return <Grid container spacing={4} key={index}>
                             <Grid item xs={3} sm={3}><Typography variant="body2">{rupiahFormat(item.bid)}</Typography></Grid>
                             <Grid item xs={5} sm={5}><Typography variant="body2">{dateTimeFormat(item.time)}</Typography></Grid>
-                            <Grid item xs={4} sm={4}><Typography variant="body2">{item.bidder.name}</Typography></Grid>
+                            <Grid item xs={4} sm={4}><Typography variant="body2">{item.bidder.username}</Typography></Grid>
                         </Grid>
                     })}
                 
