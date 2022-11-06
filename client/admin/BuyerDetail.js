@@ -83,7 +83,7 @@ export default function BuyerDetail({ match }) {
   return (
       <Paper className={classes.root} elevation={4}>
         <Typography variant="h6" className={classes.title}>
-          Verifikasi Penjual
+          Verifikasi Pembeli
         </Typography>
         <List dense>
           <ListItem>
