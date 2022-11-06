@@ -69,7 +69,7 @@ export default function Bidding (props) {
     const minBid = props.auction.bids && props.auction.bids.length> 0 ? props.auction.bids[0].bid : props.auction.startingBid
     return(
         <div>
-            {!props.justEnded && !auth.isAuthenticated().user.seller && new Date() < new Date(props.auction.bidEnd) && <div className={classes.placeForm}>
+            {!props.justEnded && !auth.isAuthenticated().user.seller && !auth.isAuthenticated().user.admin && new Date() < new Date(props.auction.bidEnd) && <div className={classes.placeForm}>
                 <TextField id="bid" label="Tawaran Anda (Rp.)"  
                         value={bid} onChange={handleChange} 
                         type="number" margin="normal"

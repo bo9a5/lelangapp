@@ -16,7 +16,7 @@ export default (server) => {
     const bid = async (bid, auction) => {
         try {
           let result = await Auction.findOneAndUpdate({_id:auction, $or: [{'bids.0.bid':{$lt:bid.bid}},{bids:{$eq:[]}} ]}, {$push: {bids: {$each:[bid], $position: 0}}}, {new: true})
-                                  .populate('bids.bidder', '_id name')
+                                  .populate('bids.bidder', '_id name nohp username')
                                   .populate('seller', '_id name')
                                   .exec()
             io
