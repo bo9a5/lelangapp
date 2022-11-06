@@ -33,7 +33,7 @@ const create = (req, res) => {
 
 const auctionByID = async (req, res, next, id) => {
   try {
-    let auction = await Auction.findById(id).populate('seller', '_id name').populate('bids.bidder', '_id name nohp').exec()
+    let auction = await Auction.findById(id).populate('seller', '_id name').populate('bids.bidder', '_id name nohp username').exec()
     if (!auction)
       return res.status('400').json({
         error: "Auction not found"

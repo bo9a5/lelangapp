@@ -87,12 +87,12 @@ export default function OpenAuctions(){
     }
   }
 
-  const removeAuction = (auction) => {
-    const updatedAuctions = [...auctions]
-    const index = updatedAuctions.indexOf(auction)
-    updatedAuctions.splice(index, 1)
-    setAuctions(updatedAuctions)
-  }
+  // const removeAuction = (auction) => {
+  //   const updatedAuctions = [...auctions]
+  //   const index = updatedAuctions.indexOf(auction)
+  //   updatedAuctions.splice(index, 1)
+  //   setAuctions(updatedAuctions)
+  // }
     return (
     <div>
       <Paper className={classes.root} elevation={4}>
@@ -112,7 +112,7 @@ export default function OpenAuctions(){
           <Button variant="contained" color={'primary'} className={classes.searchButton} onClick={getOpenAuctions}>
             <SearchIcon/>
           </Button>
-        <Auctions auctions={auctions} removeAuction={removeAuction}/>
+        <Auctions auctions={auctions} removeAuction={getOpenAuctions}/>
 
         <br/> {
             values.error && (<Typography component="p" color="error">
