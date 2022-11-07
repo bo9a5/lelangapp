@@ -58,7 +58,8 @@ export default function Bidding (props) {
         let newBid = {
             bid: bid,
             time: new Date(),
-            bidder: jwt.user
+            bidder: jwt.user,
+            auctionId: props.auction._id
         }
         socket.emit('new bid', {
             room: props.auction._id,
