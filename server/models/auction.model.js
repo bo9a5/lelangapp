@@ -34,7 +34,8 @@ const AuctionSchema = new mongoose.Schema({
   bids: [{
     bidder: {type: mongoose.Schema.ObjectId, ref: 'User'},
     bid: Number,
-    time: Date
+    time: Date,
+    auctionId: {type: mongoose.Schema.ObjectId, ref: 'Auction'}
   }]
 })
 
